@@ -1,0 +1,3 @@
+<?php
+namespace App\Payments\Gateways\GoBiz;
+final class GoBizQris { public function dynamic(string $qris,int $amount):string{if(!str_contains($qris,'010211'))throw new \InvalidArgumentException('QRIS statis tidak valid.');$q=str_replace('010211','010212',$qris);$pos=strrpos($q,'6304');if($pos===false)throw new \InvalidArgumentException('QRIS statis tidak valid.');$q=substr($q,0,$pos);$a=(string)$amount;$q.='54'.str_pad((string)strlen($a),2,'0',STR_PAD_LEFT).$a.'6304';return $q.$this->crc($q);}private function crc(string $s):string{$crc=0xFFFF;for($c=0;$c<strlen($s);$c++){$crc^=ord($s[$c])<<8;for($i=0;$i<8;$i++)$crc=($crc&0x8000)?(($crc<<1)^0x1021):($crc<<1);$crc&=0xFFFF;}return strtoupper(str_pad(dechex($crc),4,'0',STR_PAD_LEFT));}}
