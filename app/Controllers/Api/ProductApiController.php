@@ -1,3 +1,2 @@
 <?php
-namespace App\Controllers\Api;use App\Support\App;
-final class ProductApiController{public function index():never{$u=App::requireAuth();$q=App::db()->prepare('SELECT p.id,p.name,p.code,p.description,p.processing_time,pp.price FROM products p JOIN product_prices pp ON pp.product_id=p.id AND pp.level_id=? WHERE p.is_active=1 ORDER BY p.sort_order,p.id');$q->execute([$u['level_id']]);App::json(['ok'=>true,'products'=>$q->fetchAll()]);}}
+namespace App\Controllers\Api;use App\Support\App;final class ProductApiController{public function index():never{$u=App::apiUser();$q=App::db()->prepare('SELECT p.id,p.name,p.code,p.description,p.processing_time,pp.price FROM products p JOIN product_prices pp ON pp.product_id=p.id AND pp.level_id=? WHERE p.is_active=1 ORDER BY p.sort_order,p.id');$q->execute([$u['level_id']]);App::json(['ok'=>true,'products'=>$q->fetchAll()]);}}
