@@ -1,1 +1,1 @@
-<script>if(window.lucide)lucide.createIcons()</script><script src="/assets/js/app.js?v=20261001-0927"></script></body></html>
+<script>if(window.lucide)lucide.createIcons()</script><script src="/assets/js/app.js?v=20261001-1010"></script></body></html>
