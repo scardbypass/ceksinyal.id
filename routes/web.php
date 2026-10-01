@@ -15,7 +15,8 @@ try{
  if($method==='GET'&&$path==='/api/v1/products')(new ProductApiController())->index();
  if($method==='GET'&&$path==='/api/v1/balance')(new BalanceApiController())->show();
  if($method==='GET'&&preg_match('#^/api/v1/orders/([^/]+)$#',$path,$m))(new OrderStatusController())->show($m[1]);
- if($method==='POST'&&in_array($path,['/api/orders','/api/v1/orders'],true))(new OrderApiController())->create();
+ if($method==='POST'&&$path==='/api/orders'){App::verifyCsrf();(new OrderApiController())->create();}
+ if($method==='POST'&&$path==='/api/v1/orders')(new OrderApiController())->create();
  if($method==='POST'&&$path==='/api/deposits')(new DepositController())->create();
  if($method==='POST'&&$path==='/api/admin/products'){App::requireAdmin();App::verifyCsrf();(new ProductController())->save();}
  if($method==='POST'&&$path==='/api/admin/products/import-ceirgo'){App::requireAdmin();App::verifyCsrf();(new ProductController())->importCeirGo();}
