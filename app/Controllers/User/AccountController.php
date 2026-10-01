@@ -1,0 +1,6 @@
+<?php
+namespace App\Controllers\User;use App\Support\App;
+final class AccountController{
+ public function save():never{$u=App::requireAuth();$in=App::input();$name=trim($in['name']??'');$phone=preg_replace('/[^0-9+]/','',trim($in['phone']??''));if(!$name||strlen($phone)<8)App::json(['ok'=>false,'message'=>'Nama dan nomor WhatsApp wajib valid'],422);App::db()->prepare('UPDATE users SET name=?,phone=? WHERE id=?')->execute([$name,$phone,$u['id']]);$_SESSION['user_name']=$name;App::json(['ok'=>true,'message'=>'Profil berhasil diperbarui']);}
+ public function password():never{$u=App::requireAuth();$in=App::input();$q=App::db()->prepare('SELECT password FROM users WHERE id=?');$q->execute([$u['id']]);if(!password_verify($in['current_password']??'',(string)$q->fetchColumn()))App::json(['ok'=>false,'message'=>'Password saat ini salah'],422);$p=(string)($in['new_password']??'');if(strlen($p)<8)App::json(['ok'=>false,'message'=>'Password baru minimal 8 karakter'],422);App::db()->prepare('UPDATE users SET password=? WHERE id=?')->execute([password_hash($p,PASSWORD_DEFAULT),$u['id']]);App::json(['ok'=>true,'message'=>'Password berhasil diubah']);}
+}
