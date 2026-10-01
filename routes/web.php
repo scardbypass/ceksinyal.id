@@ -3,7 +3,7 @@ use App\Support\App;use App\Controllers\Auth\AuthController;use App\Controllers\
 $path=rtrim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH)?:'/','/')?:'/';$method=$_SERVER['REQUEST_METHOD'];
 $public=['/'=>'home/index.php','/login'=>'auth/login.php','/register'=>'auth/register.php','/docs'=>'docs/index.php'];
 $user=['/dashboard'=>'user/dashboard.php','/order'=>'user/order.php','/products'=>'user/products.php','/history'=>'user/history.php','/transactions'=>'user/transactions.php','/deposit'=>'user/deposit.php','/api-keys'=>'user/api_keys.php','/account'=>'user/account.php','/tickets'=>'tickets/index.php'];
-$admin=['/admin'=>'admin/dashboard.php','/admin/products'=>'admin/products.php','/admin/orders'=>'admin/orders.php','/admin/users'=>'admin/users.php','/admin/deposits'=>'admin/deposits.php','/admin/providers'=>'admin/providers.php','/admin/api'=>'admin/api.php','/admin/settings'=>'admin/settings.php'];
+$admin=['/admin'=>'admin/dashboard.php','/admin/products'=>'admin/products.php','/admin/products/new'=>'admin/product_form.php','/admin/orders'=>'admin/orders.php','/admin/users'=>'admin/users.php','/admin/deposits'=>'admin/deposits.php','/admin/providers'=>'admin/providers.php','/admin/api'=>'admin/api.php','/admin/settings'=>'admin/settings.php'];
 if($method==='GET'&&isset($public[$path])){require dirname(__DIR__).'/views/'.$public[$path];exit;}if($method==='GET'&&isset($user[$path])){App::requireAuth();require dirname(__DIR__).'/views/'.$user[$path];exit;}if($method==='GET'&&isset($admin[$path])){App::requireAdmin();require dirname(__DIR__).'/views/'.$admin[$path];exit;}
 try{
  if($method==='POST'&&$path==='/api/auth/login'){App::verifyCsrf();(new AuthController())->login();}
