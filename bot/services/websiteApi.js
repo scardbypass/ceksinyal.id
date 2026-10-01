@@ -1,0 +1,1 @@
+export async function replyOrder(order_number, reply) { const base=process.env.WEBSITE_API_URL; const token=process.env.BOT_API_TOKEN; const r=await fetch(`${base}/api/bot/reply`,{method:'POST',headers:{'content-type':'application/json','x-bot-token':token},body:JSON.stringify({order_number,reply})}); if(!r.ok) throw new Error(`Website API ${r.status}`); return r.json(); }

@@ -1,0 +1,3 @@
+<?php
+namespace App\Controllers\User;use App\Support\App;
+final class TicketController{public function create():never{$u=App::requireAuth();$in=App::input();$sub=trim($in['subject']??'');$msg=trim($in['message']??'');if(!$sub||!$msg)App::json(['ok'=>false,'message'=>'Subject dan pesan wajib'],422);$db=App::db();$db->beginTransaction();try{$db->prepare('INSERT INTO tickets(user_id,subject) VALUES(?,?)')->execute([$u['id'],$sub]);$id=(int)$db->lastInsertId();$db->prepare('INSERT INTO ticket_messages(ticket_id,user_id,message) VALUES(?,?,?)')->execute([$id,$u['id'],$msg]);$db->commit();App::json(['ok'=>true,'id'=>$id]);}catch(\Throwable $e){$db->rollBack();App::json(['ok'=>false,'message'=>'Gagal membuat ticket'],500);}}}

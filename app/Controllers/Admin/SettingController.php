@@ -1,0 +1,3 @@
+<?php
+namespace App\Controllers\Admin;use App\Support\App;
+final class SettingController{public function save():never{App::requireAdmin();$in=App::input();$allowed=['site_name','site_logo','registration_enabled','deposit_manual_enabled','deposit_auto_enabled','bot_enabled','bot_number','bot_api_url','bot_api_token'];foreach($allowed as $k)if(array_key_exists($k,$in))App::set($k,(string)$in[$k]);foreach(['manual','gobiz','jago'] as $g)if(isset($in['gateway_'.$g]))App::db()->prepare('UPDATE payment_gateways SET is_active=? WHERE code=?')->execute([(int)(bool)$in['gateway_'.$g],$g]);App::json(['ok'=>true]);}}
