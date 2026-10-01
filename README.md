@@ -252,7 +252,7 @@ ceksinyal.id/
 
 # 🛠️ Instalasi VPS
 
-Direkomendasikan Debian 11/12 atau Ubuntu LTS.
+Direkomendasikan Debian 11/12 atau Ubuntu LTS. Folder project tidak wajib `/var/www`; panduan ini memakai `/root/ceksinyal.id` agar sesuai deployment VPS langsung. Jika memakai user non-root, gunakan `/home/<user>/ceksinyal.id` dan arahkan Nginx ke folder `public` di dalamnya.
 
 ## 1. Install dependencies
 
@@ -285,7 +285,7 @@ npm install -g pm2
 ## 2. Clone
 
 ```bash
-cd /var/www
+cd /root
 git clone https://github.com/scardbypass/ceksinyal.id.git
 cd ceksinyal.id
 ```
@@ -401,7 +401,7 @@ server {
     listen 80;
     server_name ceksinyal.id www.ceksinyal.id;
 
-    root /var/www/ceksinyal.id/public;
+    root /root/ceksinyal.id/public;
     index index.php;
 
     client_max_body_size 20M;
@@ -428,7 +428,7 @@ server {
     listen 80;
     server_name api.ceksinyal.id;
 
-    root /var/www/ceksinyal.id/public;
+    root /root/ceksinyal.id/public;
     index index.php;
 
     location / {
@@ -469,11 +469,11 @@ certbot --nginx \
 # 📁 Permission
 
 ```bash
-chown -R www-data:www-data /var/www/ceksinyal.id/storage
-chown -R www-data:www-data /var/www/ceksinyal.id/public/uploads
+chown -R www-data:www-data /root/ceksinyal.id/storage
+chown -R www-data:www-data /root/ceksinyal.id/public/uploads
 
-chmod -R 775 /var/www/ceksinyal.id/storage
-chmod -R 775 /var/www/ceksinyal.id/public/uploads
+chmod -R 775 /root/ceksinyal.id/storage
+chmod -R 775 /root/ceksinyal.id/public/uploads
 ```
 
 Jangan memberi `777` ke seluruh project.
@@ -483,7 +483,7 @@ Jangan memberi `777` ke seluruh project.
 # 🤖 Menjalankan Bot WhatsApp
 
 ```bash
-cd /var/www/ceksinyal.id
+cd /root/ceksinyal.id
 
 pm2 start bot/index.js --name ceksinyal-bot
 pm2 save
@@ -817,7 +817,7 @@ wallet ledger
 # 🔄 Update Production
 
 ```bash
-cd /var/www/ceksinyal.id
+cd /root/ceksinyal.id
 
 git pull origin main
 composer install --no-dev --optimize-autoloader
