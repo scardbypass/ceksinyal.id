@@ -1,0 +1,2 @@
+* * * * * cd /root/ceksinyal.id && /usr/bin/php workers/payment-worker.php >/dev/null 2>&1
+*/2 * * * * cd /root/ceksinyal.id && /usr/bin/php workers/jago-gmail-worker.php >/dev/null 2>&1
